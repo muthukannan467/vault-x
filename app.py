@@ -14,7 +14,9 @@ if "GEMINI_API_KEY" not in st.secrets:
     st.stop()
 
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel('gemini-2.0-flash')
+
+# --- CHANGED: Use gemini-2.5-flash instead of 2.0 ---
+model = genai.GenerativeModel('gemini-2.5-flash')
 
 # --- Load Documents ---
 def load_documents():
@@ -91,7 +93,7 @@ else:
 with st.sidebar:
     st.markdown("### 🔧 System Details")
     st.markdown("""
-    - **Model**: Gemini 2.0 Flash
+    - **Model**: Gemini 2.5 Flash
     - **Document Loading**: Direct (no vector DB)
     - **Supported files**: PDF, TXT
     """)
