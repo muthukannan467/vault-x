@@ -3,5 +3,8 @@ langchain-google-genai
 langchain-community
 langchain-text-splitters
 langchain-classic
-chromadb
+chromadb==0.4.22
 pypdf
+protobuf==3.20.3
+opentelemetry-proto==1.12.0
+opentelemetry-exporter-otlp-proto-grpc==1.12.0
