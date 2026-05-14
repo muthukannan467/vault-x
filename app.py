@@ -2,19 +2,18 @@ import streamlit as st
 import os
 from pathlib import Path
 
-# CORRECTED IMPORTS for newer LangChain versions
+# CORRECTED IMPORTS for LangChain v1
 from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter  # Changed
-from langchain.chains import RetrievalQA
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_classic.chains import RetrievalQA  # Changed: langchain_classic instead of langchain
 
 # For markdown files (optional)
 try:
     from langchain_community.document_loaders import UnstructuredMarkdownLoader
 except ImportError:
     UnstructuredMarkdownLoader = None
-    st.warning("Markdown loader not available. Only PDF and TXT files will be supported.")
 
 # --- Configuration ---
 st.set_page_config(page_title="Vault-X: Private Knowledge Base", page_icon="📚")
@@ -98,7 +97,7 @@ if vector_db:
         temperature=0.3
     )
 
-    # Setup the Retrieval Chain
+    # Setup the Retrieval Chain using langchain_classic
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
@@ -113,6 +112,7 @@ if vector_db:
     if query:
         with st.spinner("Searching documents and generating answer..."):
             try:
+                # Note: RetrievalQA expects 'query' as input key
                 response = qa_chain.invoke({"query": query})
                 
                 # Display Answer
